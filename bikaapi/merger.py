@@ -27,6 +27,8 @@ def merger_init(patients, analysis, merged_save_name):
 
     result_ranges(renamed)
 
+    sanitizer(renamed)
+
     save_merged(renamed, merged_save_name)
 
  
@@ -172,3 +174,10 @@ def save_merged(merged_data, merged_save_name):
     csv_save = os.path.abspath(os.path.join( os.path.expanduser('~') , 'Documents/Bika Lims/', 'merged')) + '\\' + merged_save_name + ' - ' + strftime("%a %d %b %Y - %H%M") + '.csv'
     merged_data.to_csv(csv_save, index=False)
     print('\n\nYour data has been successfully Merged. \nWe have saved it for you in:\n' + csv_save)
+
+def sanitizer(unsanitized):
+    # deletion of unwanted columns
+    print("\nSanitisation ... ... ...\n")
+    #unsanitized.drop('Results', axis=1, inplace = True)
+    cols = ['Results']
+    unsanitized.drop(cols, axis=1, inplace = True)
