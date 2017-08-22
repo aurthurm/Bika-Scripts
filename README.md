@@ -13,19 +13,19 @@ My Personal favourite distribution is obtained from here:
 	https://www.continuum.io/downloads
 	```
 
-2. If you have downloaded the python.org istribution you may want to install reuests package from the console. Open your console and type the following to install.
+2. If you have downloaded the python.org distribution you may want to install the requests package. Open your console and type the following to install.
 
 	```
 	pip install requests
 	
-	Press Enter
+	Then Press Enter and it will be installed if not already included in the distribution.
 	```
 
-3. In Documents create a Folder called 'Bika Lims'. Start the console inside this folder and run the following code:
+3. In Your Windows's Documents Folder create a Folder called 'Bika Lims'. Then, Start the console inside this folder and run the following code:
 	```
 	git clone https://github.com/aurthurm/bika-api
 	````
-4. To use the api type the folowig commands:
+4. To use the api type the folowig commands in your console:
 	```
 	python bika-api\bikaapi
 
