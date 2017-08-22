@@ -32,6 +32,12 @@ My Personal favourite distribution is obtained from here:
 	You are good to go! 
 	```
 6. When you use the API your data will be located in .../Documents/Bika LIMS/...
+7. For the Console i prefer cmder to cmd in windows. To install cmder you can download it from here:
+	```
+	https://github.com/cmderdev/cmder/releases/download/v1.3.2/cmder.zip
+	```
+8. Create a folder in C:/ directory called 'tools' *(small letters)*. Unzip the installed cmder inside this directory. Go and download this cmder registry file and double click to install: https://gist.githubusercontent.com/jojobyte/66c8346ed8948b9b395f/raw/cf00c0a36f7df319eb231b585c612494aff0484c/ContextCmder-Enable.reg Now, cmder should be accessible in Context (Right-Click) Menu anywhere from your system
+9. Enjoy ....
 
 
 ## Contact details
