@@ -21,7 +21,7 @@ My Personal favourite distribution is obtained from here:
 	Then Press Enter and it will be installed if not already included in the distribution.
 	```
 
-3. In Your Windows's Documents Folder create a Folder called 'Bika Lims'. Then, Start the console inside this folder and run the following code:
+3. In Your Windows's Documents Folder create a Folder called 'Bika LIMS'. Then, Start the console inside this folder and run the following code:
 	```
 	git clone https://github.com/aurthurm/bika-api
 	````
