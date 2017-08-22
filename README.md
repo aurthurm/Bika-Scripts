@@ -2,11 +2,13 @@
 
 ## Installation and Usage Guide
 
-1. Make sure you have python Installed. You can downloa it from here: 
+1. Make sure you have python Installed. You can download it from here: 
 	```
 	https://www.python.org/downloads
+
+	Download distribution specific to your system: 64bit OR 32bit (x86)
 	```
-My Personal favourite distribution is: 
+My Personal favourite distribution is obtained from here: 
 	```
 	https://www.continuum.io/downloads
 	```
