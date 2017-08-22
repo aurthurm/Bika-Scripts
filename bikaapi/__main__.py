@@ -7,6 +7,7 @@ from tkinter import *
 from tkinter import filedialog
 import pandas as pd
 from json2csv import json_to_csv
+import getpass
 
 
 
@@ -40,7 +41,7 @@ if __name__ == "__main__":
 			api.init( json_file_path, json_file)
 
 			username = str(input('Enter your Username:'))
-			password = str(input('Enter your Password:'))
+			password = getpass.getpass('Enter Your Password:')
 			your_api = input('Enter your API {e.g 19.0.9.8 } :')
 			page_size = input('Enter page size {e.g 5000 } :')
 			iterations = int(input('Enter number of cycles or iterations {e.g 5000 }:'))
@@ -59,7 +60,7 @@ if __name__ == "__main__":
 			api.init( json_file_path, json_file)
 
 			username = str(input('Enter your Username:'))
-			password = str(input('Enter your Password:'))
+			password = getpass.getpass('Enter Your Password:')
 			your_api = input('Enter your API {e.g 19.0.9.8 } :')
 			page_size = input('Enter page size {e.g 5000 }:')
 			iterations = int(input('Enter number of cycles or iterations {e.g 2 }:'))
@@ -85,7 +86,7 @@ if __name__ == "__main__":
 			api.init( json_file_path, analysis_json_file)
 
 			username = str(input('Enter your Username:'))
-			password = str(input('Enter your Password:'))
+			password = getpass.getpass('Enter Your Password:')
 			your_api = input('Enter your API {e.g 19.0.9.8 } :')
 
 			patients_page_size = input('Enter Patients page size {e.g 5000 }:')
