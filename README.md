@@ -21,7 +21,7 @@ My Personal favourite distribution is obtained from here:
 	Then Press Enter and it will be installed if not already included in the distribution.
 	```
 
-3. In Your Windows's Documents Folder create a Folder called 'Bika LIMS'. Then, Start the console inside this folder and run the following code:
+3. Install the API in any Location of your choice. Start the console and run the following code:
 	```
 	git clone https://github.com/aurthurm/bika-api
 	````
@@ -29,8 +29,9 @@ My Personal favourite distribution is obtained from here:
 	```
 	python bika-api\bikaapi
 
-	You are good to go!
+	You are good to go! 
 	```
+6. When you use the API your data will be located in .../Documents/Bika LIMS/...
 
 
 ## Contact details
