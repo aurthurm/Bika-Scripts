@@ -17,6 +17,7 @@ def init( json_file_path, json_file):
 	    distutils.dir_util.mkpath(str(json_file_path))
 	    print('Created the folder ' + str(json_file_path))
 	    if not json_file.is_file():
+	    	json_file = str(json_file)
 	    	with open(json_file, "w") as f:
 	    		f.write("[]")
 	    	f.close()
