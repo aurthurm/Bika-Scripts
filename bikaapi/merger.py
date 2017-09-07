@@ -173,7 +173,7 @@ def result_ranges(no_ranges):
     )
 
 def save_merged(merged_data, merged_save_name):
-    csv_save = os.path.abspath(os.path.join( os.path.expanduser('~') , 'Documents/Bika Lims/', 'merged')) + '\\' + merged_save_name + ' - ' + strftime("%a %d %b %Y - %H%M") + '.csv'
+    csv_save = os.path.abspath(os.path.join( str(os.path.expanduser('~')) , 'Documents/Bika Lims/', 'merged')) + '\\' + merged_save_name + ' - ' + strftime("%a %d %b %Y - %H%M") + '.csv'
     merged_data.to_csv(csv_save, index=False)
     print('\n\nYour data has been successfully Merged. \nWe have saved it for you in:\n' + csv_save)
 

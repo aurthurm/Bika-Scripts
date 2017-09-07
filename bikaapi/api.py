@@ -22,7 +22,7 @@ def init( json_file_path, json_file):
 	    	print('Created the file ' + str(json_file))
 
 
-	csv_file_path = Path( os.path.expanduser('~') + '\\Documents\\Bika LIMS\\csv\\' )
+	csv_file_path = Path( str(os.path.expanduser('~')) + '\\Documents\\Bika LIMS\\csv\\' )
 	if not csv_file_path.is_dir():
 	    os.makedirs(csv_file_path)
 
@@ -103,9 +103,9 @@ def file_count(page_nr):
 
 def to_cvs(json_file, file_name, review_state):
 	if review_state == "none":
-		csv_file = os.path.abspath(os.path.join( os.path.expanduser('~') , 'Documents/Bika Lims/', 'csv')) + '\\' + file_name + ' - ' + strftime("%a %d %b %Y - %H%M") + '.csv'
+		csv_file = os.path.abspath(os.path.join( str(os.path.expanduser('~')) , 'Documents/Bika Lims/', 'csv')) + '\\' + file_name + ' - ' + strftime("%a %d %b %Y - %H%M") + '.csv'
 	else:
-		csv_file = os.path.abspath(os.path.join( os.path.expanduser('~') , 'Documents/Bika Lims/', 'csv')) + '\\' + file_name + '_' + review_state + ' - ' + strftime("%a %d %b %Y - %H%M") + '.csv'
+		csv_file = os.path.abspath(os.path.join( str(os.path.expanduser('~')) , 'Documents/Bika Lims/', 'csv')) + '\\' + file_name + '_' + review_state + ' - ' + strftime("%a %d %b %Y - %H%M") + '.csv'
 		
 	json_to_csv( json_file, csv_file)
 	print('\n\nYour data has been successfully saved as\n' + csv_file)

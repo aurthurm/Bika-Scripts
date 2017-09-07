@@ -35,7 +35,7 @@ if __name__ == "__main__":
 
 			file_name = input('Enter File save name {e.g analysis or results } :')
 			review_state = input('Enter page review state {e.g published } :')
-			json_file_path = Path( os.path.expanduser('~') + '\\Documents\\Bika LIMS\\json\\' )
+			json_file_path = Path( str(os.path.expanduser('~')) + '\\Documents\\Bika LIMS\\json\\' )
 			json_file = Path( str(json_file_path) + '\\' + file_name + '_' + review_state + ' - ' + strftime("%a %d %b %Y - %H%M") + '.json' )
 
 			api.init( json_file_path, json_file)
@@ -54,7 +54,7 @@ if __name__ == "__main__":
 
 			file_name = input('Enter File save name {e.g patients } :')
 			review_state = "none"
-			json_file_path = Path( os.path.expanduser('~') + '\\Documents\\Bika LIMS\\json\\' )
+			json_file_path = Path( str(os.path.expanduser('~')) + '\\Documents\\Bika LIMS\\json\\' )
 			json_file = Path( str(json_file_path) + '\\' + file_name + ' - ' + strftime("%a %d %b %Y - %H%M") + '.json' )
 
 			api.init( json_file_path, json_file)
@@ -77,7 +77,7 @@ if __name__ == "__main__":
 			patients_review_state = "none"
 			analysis_review_state = input('Enter Analysis review state {e.g published } :')
 
-			json_file_path = Path( os.path.expanduser('~') + '\\Documents\\Bika LIMS\\json\\' )
+			json_file_path = Path( str(os.path.expanduser('~')) + '\\Documents\\Bika LIMS\\json\\' )
 
 			patient_json_file = Path( str(json_file_path) + '\\' + patients_file_name + ' - ' + strftime("%a %d %b %Y - %H%M") + '.json' )
 			analysis_json_file = Path( str(json_file_path) + '\\' + analysis_file_name + '_' + analysis_review_state + ' - ' + strftime("%a %d %b %Y - %H%M") + '.json' )
@@ -104,7 +104,7 @@ if __name__ == "__main__":
 			
 	elif do_choice == 2:
 
-		merged_path = Path( os.path.expanduser('~') + '\\Documents\\Bika LIMS\\merged\\' )
+		merged_path = Path( str(os.path.expanduser('~')) + '\\Documents\\Bika LIMS\\merged\\' )
 		if not merged_path.is_dir():
 		    os.makedirs(merged_path)
 
@@ -113,7 +113,7 @@ if __name__ == "__main__":
 
 		merged_save_name = str(input('Enter File Name for Saving the Merged Data:'))
 		patients_file =  filedialog.askopenfilename(
-		    initialdir = Path( os.path.expanduser('~') + '\\Documents\\Bika LIMS\\csv\\' ),
+		    initialdir = Path( str(os.path.expanduser('~')) + '\\Documents\\Bika LIMS\\csv\\' ),
 		    title = "Select Patients csv File",
 		    filetypes = (
 		        ("csv files","*.csv"),
@@ -122,7 +122,7 @@ if __name__ == "__main__":
 		)
 
 		analysis_file =  filedialog.askopenfilename(
-		    initialdir = Path( os.path.expanduser('~') + '\\Documents\\Bika LIMS\\csv\\' ),
+		    initialdir = Path( str(os.path.expanduser('~')) + '\\Documents\\Bika LIMS\\csv\\' ),
 		    title = "Select Analysis csv File",
 		    filetypes = (
 		        ("csv files","*.csv"),
@@ -143,7 +143,7 @@ if __name__ == "__main__":
 
 		file_name = input('Enter File Save name :')
 		selected_json_file =  filedialog.askopenfilename(
-		    initialdir = Path( os.path.expanduser('~') + '\\Documents\\Bika LIMS\\json\\' ),
+		    initialdir = Path( str(os.path.expanduser('~')) + '\\Documents\\Bika LIMS\\json\\' ),
 		    title = "Select the JSON File",
 		    filetypes = (
 		        ("json files","*.json"),
@@ -152,7 +152,7 @@ if __name__ == "__main__":
 		    )
 		)
 
-		csv_file = os.path.abspath(os.path.join( os.path.expanduser('~') , 'Documents/Bika Lims/', 'csv')) + '\\' + file_name + ' - ' + strftime("%a %d %b %Y - %H%M") + '.csv'
+		csv_file = os.path.abspath(os.path.join( str(os.path.expanduser('~')) , 'Documents/Bika Lims/', 'csv')) + '\\' + file_name + ' - ' + strftime("%a %d %b %Y - %H%M") + '.csv'
 		
 		print('\nConverting ... ... .... ...')
 		json_to_csv( selected_json_file, csv_file)
