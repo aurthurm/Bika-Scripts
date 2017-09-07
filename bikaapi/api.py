@@ -4,9 +4,9 @@ import os
 from time import ctime, strftime
 from json2csv import json_to_csv
 from pathlib import Path
+import distutils.dir_util
 
 def init( json_file_path, json_file):
-	json_file_path = str(json_file_path)
 	if json_file_path.is_dir():
 	    if not json_file.is_file():
 	    	with open(json_file, "w") as f:
@@ -14,7 +14,7 @@ def init( json_file_path, json_file):
 	    	f.close()
 	    	print('Created the file ' + str(json_file))
 	else:
-	    os.makedirs(json_file_path)
+	    distutils.dir_util.mkpath(json_file_path)
 	    print('Created the folder ' + str(json_file_path))
 	    if not json_file.is_file():
 	    	with open(json_file, "w") as f:
@@ -25,7 +25,7 @@ def init( json_file_path, json_file):
 
 	csv_file_path = Path( str(os.path.expanduser('~')) + '\\Documents\\Bika LIMS\\csv\\' )
 	if not csv_file_path.is_dir():
-	    os.makedirs(csv_file_path)
+	    distutils.dir_util.mkpath(csv_file_path)
 
 def pull_data(username, password, api_url, page_nr, iterations, json_file, file_name, review_state):
 

@@ -1,6 +1,7 @@
 from pathlib import Path
 from time import strftime
 import os
+import distutils.dir_util
 import api 
 import merger
 from tkinter import *
