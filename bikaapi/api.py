@@ -6,6 +6,7 @@ from json2csv import json_to_csv
 from pathlib import Path
 
 def init( json_file_path, json_file):
+	json_file_path = str(json_file_path)
 	if json_file_path.is_dir():
 	    if not json_file.is_file():
 	    	with open(json_file, "w") as f:
