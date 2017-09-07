@@ -21,12 +21,13 @@ def init( json_file_path, json_file):
 	    	with open(json_file, "w") as f:
 	    		f.write("[]")
 	    	f.close()
-	    	print('Created the file ' + str(json_file))
+	    	print('Created the file ' + json_file)
 
 
 	csv_file_path = Path( str(os.path.expanduser('~')) + '\\Documents\\Bika LIMS\\csv\\' )
 	if not csv_file_path.is_dir():
 	    distutils.dir_util.mkpath(str(csv_file_path))
+	    print('Created the folder ' + str(csv_file_path))
 
 def pull_data(username, password, api_url, page_nr, iterations, json_file, file_name, review_state):
 

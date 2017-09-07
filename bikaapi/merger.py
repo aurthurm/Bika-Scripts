@@ -23,7 +23,14 @@ def merger_init(patients, analysis, merged_save_name):
     print('\nCreating Age Ranges [ 14 <= | > 14 ] ... .... ... .... ...')
     renamed['Age Ranges'] = renamed['Age'].apply(age_ranges)
 
-    result_numeriser(renamed)
+    copier(renamed)
+
+    print('\nmaking numeric... .... ... .... ...')
+    renamed['Results'] = renamed['Results'].apply(make_numeric)
+
+    renamed['Results'] = renamed['Results'].astype(float).apply(np.int64)
+
+   # result_numeriser(renamed)
 
     result_ranges(renamed)
 
@@ -151,6 +158,23 @@ def result_numeriser(unnumerised):
         )
     )
     unnumerised['Results'] = unnumerised['Results'].astype(float).apply(np.int64)
+
+# redefining the numeriser
+def copier(to_copy):
+    print('\nCopying successfull .. ... ....')
+    to_copy['Patient Results'] = to_copy['Results']
+
+def make_numeric(x):
+    if x == "Target Not Detected":
+        z = 999999999999
+    elif x == "Failed" or x == "FAILED":
+        z = 0
+    elif x == "Invalid" or x == "INVALID":
+        z = 999999999009
+    else:
+        z = x
+    return z
+
     
 def result_ranges(no_ranges):    
     print('\nCreating Result Categories [ TND, Failed, < 1000 , >= 1000 ] ... .... ... .... ...')
