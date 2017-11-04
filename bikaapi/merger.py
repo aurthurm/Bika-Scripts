@@ -59,9 +59,11 @@ def data_filter(unfiltered):
             "ClientPatientID_x",
             "Analyses_0_Result",
             "Analyses_0_review_state",
+            "RejectionReasons_0_checkbox",
+            "RejectionReasons_0_checkbox_other",
+            "RejectionReasons_0_other",
             "Surname",
             "Analyses_0_Unit",
-          #  "Analyses_0_creation_date", giving wront dates !!!!!!!!
             "creation_date_y",
             "Analyses_0_ResultCaptureDate",
             "DateReceived",
