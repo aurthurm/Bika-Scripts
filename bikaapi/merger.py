@@ -37,7 +37,10 @@ def merger_init(patients, analysis, merged_save_name):
 
     sanitizer(renamed)
 
-    save_merged(renamed, merged_save_name)
+    print('\nadding clients... .... ... .... ...')
+    with_clients = places_creator(renamed)
+
+    save_merged(with_clients, merged_save_name)
 
  
 #patients = patients.rename(columns={'UID': 'Patient_uid'})
@@ -50,6 +53,7 @@ def data_filter(unfiltered):
     return unfiltered[
         [
             "Client",
+            "PrimaryReferrerUID",
             "PatientUID",
             "Patient_uid",
             "BirthDate",
@@ -81,7 +85,8 @@ def renamer(funny_names):
     print('\nReNaming File Headers... .... ... .... ...')
     return funny_names.rename(
         columns={
-            "Patient_uid" : "Unique Identidier",
+            "Patient_uid" : "Patient Unique ID",
+            "PrimaryReferrerUID" : "Client UID",
             "BirthDate" : "Date of Birth",
             "Analyses_0_getRequestID" : "Request ID",
             "ClientPatientID_x" : "Client Patient ID",
@@ -114,7 +119,7 @@ def shortened_dates(unshortened):
 
 def remove_dublicates(dublicated):
     print("\nRemoving Dublicates ... ... ... ... ... ")
-    dublicated.drop_duplicates(subset=['Unique Identidier'] , keep='first', inplace=True)
+    dublicated.drop_duplicates(subset=['Patient Unique ID'] , keep='first', inplace=True)
 
 def get_ages(no_ages):
     def get_year( x ):   
@@ -208,5 +213,33 @@ def sanitizer(unsanitized):
     # deletion of unwanted columns
     print("\nSanitisation ... ... ...\n")
     #unsanitized.drop('Results', axis=1, inplace = True)
-    cols = ['Results']
+    cols = ['Results','Name','id']
     unsanitized.drop(cols, axis=1, inplace = True)
+
+def places_creator(no_places):
+    # Include Province and District Information
+    all_clients = os.path.abspath(os.path.join( str(os.path.expanduser('~')) , 'Documents/Bika Lims/', 'clients')) + '\\' + 'Clients.csv'
+    all_clients = pd.read_csv(all_clients)
+    return pd.merge(left=all_clients,right=no_places, left_on='Client UID', right_on='Client UID')
+
+def Clients_filter(clients_unfiltered):
+    return clients_unfiltered[
+        [
+            "ClientID",
+            "Name",
+            "PhysicalAddress_district",
+            "PhysicalAddress_state",
+            "UID",
+            "id",
+        ]
+    ]
+
+def clients_renamer(funny_names):
+    return funny_names.rename(
+        columns={
+            "PhysicalAddress_district" : "District",
+            "PhysicalAddress_state" : "State",
+            "UID" : "Client UID",
+            "getId" : "Client ID"
+        }
+    )

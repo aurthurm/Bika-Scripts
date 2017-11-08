@@ -20,7 +20,7 @@ if __name__ == "__main__":
 	
 	print('\n')
 	print('What do you want to do? \n')
-	print('[1] : Pull New Data from API \n[2] : Merge Patients and Analysis Data  \n[3] : Convert JSON to CSV\n')
+	print('[1] : Pull New Data from API \n[2] : Merge Patients and Analysis Data  \n[3] : Convert JSON to CSV\n[4] : Update Clients [Provinces/Districts]\n')
 	do_choice = int(input('Choose either 1 or 2 or 3:'))
 
 	if do_choice == 1:
@@ -137,7 +137,7 @@ if __name__ == "__main__":
 
 		merger.merger_init(patients, analysis, merged_save_name)
 
-	else:
+	elif do_choice == 3:	
 		# Consider a mutifile selecting dialog and for loop
 		root = Tk()
 		root.withdraw()
@@ -158,3 +158,29 @@ if __name__ == "__main__":
 		print('\nConverting ... ... .... ...')
 		json_to_csv( selected_json_file, csv_file)
 		print('\nYour csv file has been successfully saved in\n' + csv_file)
+
+	else:
+		# Pull and Update Clients if need arise. This will update new provinces and Distric if any
+		file_name = 'Clients'
+		review_state = "none_client"
+		json_file_path = Path( str(os.path.expanduser('~')) + '\\Documents\\Bika LIMS\\json\\' )
+		json_file = Path( str(json_file_path) + '\\' + file_name + ' - ' + strftime("%a %d %b %Y - %H%M") + '.json' )
+
+		api.init( json_file_path, json_file)
+
+		username = str(input('Enter your Username:'))
+		password = getpass.getpass('Enter Your Password:')
+		your_api = input('Enter your API {e.g 19.0.9.8 } :')
+		page_size = '500'
+		iterations = int('4')
+		api_url =  "http://" + str(your_api) + "/@@API/read?portal_type=Client&page_size=" + str(page_size) + "&page_nr="
+		page_nr = 0      
+
+		main(username, password, api_url, page_nr, iterations, json_file, file_name, review_state)
+
+		clients_file = os.path.abspath(os.path.join( str(os.path.expanduser('~')) , 'Documents/Bika Lims/', 'clients')) + '\\' + file_name + '.csv'
+		clients_raw = pd.read_csv(clients_file)
+		cleints_filtred = merger.Clients_filter(clients_raw)
+		clients_final = merger.clients_renamer(cleints_filtred)
+		clients_final.drop_duplicates(subset=['Client UID'] , keep='first', inplace=True)
+		clients_final.to_csv(clients_file, sep=',', encoding='utf-8',header=True, index=False)

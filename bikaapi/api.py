@@ -29,6 +29,12 @@ def init( json_file_path, json_file):
 	    distutils.dir_util.mkpath(str(csv_file_path))
 	    print('Created the folder ' + str(csv_file_path))
 
+	client_file_path = Path( str(os.path.expanduser('~')) + '\\Documents\\Bika LIMS\\clients\\' )
+	if not client_file_path.is_dir():
+	    distutils.dir_util.mkpath(str(client_file_path))
+	    print('Created the folder ' + str(client_file_path))
+
+
 def pull_data(username, password, api_url, page_nr, iterations, json_file, file_name, review_state):
 
 	print('\nStart Time')
@@ -107,12 +113,13 @@ def file_count(page_nr):
 def to_cvs(json_file, file_name, review_state):
 	if review_state == "none":
 		csv_file = os.path.abspath(os.path.join( str(os.path.expanduser('~')) , 'Documents/Bika Lims/', 'csv')) + '\\' + file_name + ' - ' + strftime("%a %d %b %Y - %H%M") + '.csv'
+	elif review_state == "none_client":
+		csv_file = os.path.abspath(os.path.join( str(os.path.expanduser('~')) , 'Documents/Bika Lims/', 'clients')) + '\\' + file_name + '.csv' 
 	else:
 		csv_file = os.path.abspath(os.path.join( str(os.path.expanduser('~')) , 'Documents/Bika Lims/', 'csv')) + '\\' + file_name + '_' + review_state + ' - ' + strftime("%a %d %b %Y - %H%M") + '.csv'
 		
 	json_to_csv( json_file, csv_file)
 	print('\n\nYour data has been successfully saved as\n' + csv_file)
-	
-	
+
 
 
