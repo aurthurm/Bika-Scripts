@@ -1,3 +1,5 @@
+# Deveoped by Aurthur Musendame
+
 import requests
 import json
 import os
@@ -7,6 +9,10 @@ from pathlib import Path
 import distutils.dir_util
 
 def init( json_file_path, json_file):
+	# the initialisation function creates 
+	# 1. folders necessary for the api
+	# 2. create empty initiatorjson files 
+
 	if json_file_path.is_dir():
 	    if not json_file.is_file():
 	    	with open(json_file, "w") as f:
@@ -36,6 +42,7 @@ def init( json_file_path, json_file):
 
 
 def pull_data(username, password, api_url, page_nr, iterations, json_file, file_name, review_state):
+	# login to the Bika Lims API and pull data, save json file and convert it to csv using json2csv
 
 	print('\nStart Time')
 	start_time = ctime()
@@ -85,13 +92,13 @@ def pull_data(username, password, api_url, page_nr, iterations, json_file, file_
 		page_nr+=1 # increamenting the loop
 
 def success_check(api_data):
-	# print ("\nAnalysis")
-	# print ('Any Errors ? ' + str(api_data['error']))
+	# Check for Errors and progress and provide feed back
 	print ('Successfull ? ' + str(api_data['success']))
 	print ('Last Object number: ' + str(api_data['last_object_nr']))
 	print ('Total Objects: ' + str(api_data['total_objects']))
 
 def list_concat(input_data, json_file):
+	# Merge or concatenate pulled json files into a single file
     with open(json_file) as data_file:    
         data = json.load(data_file)
 
@@ -101,6 +108,7 @@ def list_concat(input_data, json_file):
         json.dump(combined_list, outfile, sort_keys = True, indent = 4, ensure_ascii = False,  separators=(',', ':'))  # lets make the json file sexy human readable
 
 def file_count(page_nr):
+	# get the number or json files that have been merged into a sigle file
 	file_count = page_nr + 1
 
 	print ('\nwritten ' + str(file_count) + ' files \nTime: ')
@@ -111,6 +119,7 @@ def file_count(page_nr):
 
 
 def to_cvs(json_file, file_name, review_state):
+	# convert json file to csv file
 	if review_state == "none":
 		csv_file = os.path.abspath(os.path.join( str(os.path.expanduser('~')) , 'Documents/Bika Lims/', 'csv')) + '\\' + file_name + ' - ' + strftime("%a %d %b %Y - %H%M") + '.csv'
 	elif review_state == "none_client":
