@@ -14,48 +14,34 @@ def merger_init(patients, analysis, merged_save_name):
     # 3. Exploration
 
     merged_all = merger(patients, analysis)
-
     filtered = data_filter(merged_all)
-
     renamed = renamer(filtered)
-
     shortened_dates(renamed)
-
- #   remove_dublicates(renamed)
-
+    remove_dublicates(renamed)
     get_ages(renamed)
-
-    print('\nCreating Age Ranges [ 14 <= | > 14 ] ... .... ... .... ...')
+    print('... ... Creating Age Ranges [ 14 <= | > 14 ]')
     renamed['Age Ranges'] = renamed['Age'].apply(age_ranges)
-
     copier(renamed)
-
-    print('\nmaking numeric... .... ... .... ...')
+    print('... ... Making numeric')
+    # result_numeriser(renamed)
     renamed['Results'] = renamed['Results'].apply(make_numeric)
-
     renamed['Results'] = renamed['Results'].astype(float).apply(np.int64)
-
-   # result_numeriser(renamed)
-
-    result_ranges(renamed)    
-
-    print('\nadding clients... .... ... .... ...')
+    # result_ranges(renamed)
+    renamed['Results Ranges'] = renamed['Results'].apply(make_result_ranges)
+    print('... ... Adding clients')
     with_clients = places_creator(renamed)
-
     sanitizer(with_clients)
-
     save_merged(with_clients, merged_save_name)
-
  
 #patients = patients.rename(columns={'UID': 'Patient_uid'})
 def merger(patients, analysis):
     # Merge Patients and Analyses Files
-    print('\nMerging Patients and Analysis Data ... .... ... .... ...')
+    print('\n... ... Merging Patients and Analysis Data')
     return pd.merge(left=patients,right=analysis, left_on='UID', right_on='Patient_uid')
 
 def data_filter(unfiltered):
     # A filter that drops columns we are not using
-    print('\nFitering Columns [ Droping Useless Cols ]... .... ... .... ...')
+    print('... ... Fitering Columns [ Droping Useless Cols ]')
     return unfiltered[
         [
             "Client",
@@ -70,9 +56,9 @@ def data_filter(unfiltered):
             "ClientPatientID_x",
             "Analyses_0_Result",
             "Analyses_0_review_state",
-            "RejectionReasons_0_checkbox",
-            "RejectionReasons_0_checkbox_other",
-            "RejectionReasons_0_other",
+            #"RejectionReasons_0_checkbox",               these are only for published data
+            #"RejectionReasons_0_checkbox_other",
+            #"RejectionReasons_0_other",
             "Surname",
             "Analyses_0_Unit",
             "creation_date_y",
@@ -89,7 +75,7 @@ def data_filter(unfiltered):
 
 def renamer(funny_names):
     # Rename filtered data cloumns with unfriendly naming conventios
-    print('\nReNaming File Headers... .... ... .... ...')
+    print('... ... ReNaming File Headers')
     return funny_names.rename(
         columns={
             "Patient_uid" : "Patient Unique ID",
@@ -119,7 +105,7 @@ def shortened_dates(unshortened):
         z = p[0:10]
         return z
 
-    print('\nModifying Dates ... .... ... .... ...')
+    print('... ... Modifying Dates')
     unshortened['Date Result Captured'] = unshortened['Date Result Captured'].apply(date_shortener)
     unshortened['Date of Birth']= unshortened['Date of Birth'].apply(date_shortener)
     unshortened['Date of Creation']= unshortened['Date of Creation'].apply(date_shortener)
@@ -129,7 +115,7 @@ def shortened_dates(unshortened):
 
 def remove_dublicates(dublicated):
     # if any, remove dublicated rows
-    print("\nRemoving Dublicates ... ... ... ... ... ")
+    print("... ... Removing Dublicates")
     dublicated.drop_duplicates(subset=['Patient Unique ID'] , keep='first', inplace=True)
 
 def get_ages(no_ages):
@@ -141,7 +127,7 @@ def get_ages(no_ages):
         z = p[0:4]
         return z
 
-    print('\nCaculating Ages ... .... ... .... ...')    
+    print('... ... Caculating Ages')    
     no_ages['Year of Birth']= no_ages['Date of Birth']
     no_ages['Year of Birth']= no_ages['Year of Birth'].apply(get_year)
     this_year = str(pd.to_datetime(dt.datetime.today().strftime('%m-%d-%Y')).strftime('%Y'))
@@ -159,7 +145,7 @@ def age_ranges(x):
 def result_numeriser(unnumerised):
     # Convert all Results with strings values to some set number 
     # This makes it easier to calculate Viral Load Results ranges
-    print('\nNumerising Results ... .... ... .... ...')
+    print('... ... Numerising Results')
     unnumerised['Patient Results'] = unnumerised['Results']
     
     unnumerised['Results'] = np.where(
@@ -185,14 +171,16 @@ def result_numeriser(unnumerised):
     )
     unnumerised['Results'] = unnumerised['Results'].astype(float).apply(np.int64)
 
-# redefining the numeriser
 def copier(to_copy):
     # dublicate Results and give the new column a new name
     # This will avoid erroneous result manipulation giving us another result column to mingle and fool around with
-    print('\nCopying successfull .. ... ....')
+    print('... ... Copying successfull')
     to_copy['Patient Results'] = to_copy['Results']
 
 def make_numeric(x):
+    # Numeriser -> == to result_numeriser.
+    # Sometimes in some computers the above numeriser doesnt work.
+    # This is an alternative finction
     if x == "Target Not Detected":
         z = 999999999999
     elif x == "Failed" or x == "FAILED":
@@ -202,12 +190,11 @@ def make_numeric(x):
     else:
         z = x
     return z
-
     
 def result_ranges(no_ranges):    
     # using the numerised results to create a column of result ranges
     # good for easier xtables
-    print('\nCreating Result Categories [ TND, Failed, < 1000 , >= 1000 ] ... .... ... .... ...')
+    print('... ... Creating Result Categories [ TND, Failed, < 1000 , >= 1000 ]')
     no_ranges['Result Range'] = np.where(
         (no_ranges['Results'] == 0),
         'FAILED',
@@ -226,15 +213,29 @@ def result_ranges(no_ranges):
             )
     )
 
+def make_result_ranges(x):
+    # Alternative to result_ranges
+    if x == 0:
+        z = "FAILED"
+    elif x <= 1000 and x != 0:
+        z = "<= 1000"
+    elif x > 1000 and x < 999999999009:
+        z = "> 1000"
+    elif x == 999999999999:
+        z = "TND"
+    else:
+        z = "Invalid"
+    return z
+
 def save_merged(merged_data, merged_save_name):
     # save the merged raw data as csv
     csv_save = os.path.abspath(os.path.join( str(os.path.expanduser('~')) , 'Documents/Bika Lims/', 'merged')) + '\\' + merged_save_name + ' - ' + strftime("%a %d %b %Y - %H%M") + '.csv'
     merged_data.to_csv(csv_save, index=False)
-    print('\n\nYour data has been successfully Merged. \nWe have saved it for you in:\n' + csv_save)
+    print('\nYour data has been successfully Merged. \nWe have saved it for you in the location below [*link*]:\n' + csv_save)
 
 def sanitizer(unsanitized):
     # deletion of unwanted columns
-    print("\nSanitisation ... ... ...\n")
+    print("... ... Sanitisation ... ... ...")
     #unsanitized.drop('Results', axis=1, inplace = True)
     cols = ['Results','Name','id']
     unsanitized.drop(cols, axis=1, inplace = True)

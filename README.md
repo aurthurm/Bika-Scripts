@@ -23,7 +23,7 @@ My Personal favourite distribution is obtained from here:
 
 3. Install the API in any Location of your choice. Start the console and run the following code:
 	```
-	git clone https://github.com/aurthurm/bika-api
+	git clone https://github.com/aurthurm/bika-scripts
 	````
 4. To use the api type the folowig commands in your console:
 	```
@@ -44,6 +44,6 @@ My Personal favourite distribution is obtained from here:
 
 Developed by Aurthur Musendame
 
-Website: aurthurmusendame.com/contact
+Website: down
 
 Email: aurthurm@aurthurmusendame.com

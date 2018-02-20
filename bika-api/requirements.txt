@@ -1,0 +1,9 @@
+requests
+getpass
+tkinter
+pandas
+numpy
+six
+json
+
+
