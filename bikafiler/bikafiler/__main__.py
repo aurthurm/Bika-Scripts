@@ -63,7 +63,7 @@ def get_clients(username, password):
 	clients_final.drop_duplicates(subset=['Client UID'] , keep='first', inplace=True)
 	clients_final.to_csv(clients_file, sep=',', encoding='utf-8',header=True, index=False)
 
-def pull_data_singles(username, password, api_url, page_nr, iterations, json_file_path, file_name, review_state):
+def pull_data_singles(username, password, api_url, page_nr, iterations, json_file_path, file_name, review_state, data, to_reduce):
 	# login to the Bika Lims API and pull data, save json file and convert it to csv using json2csv
 
 	#print('\nStart Time')
@@ -84,7 +84,7 @@ def pull_data_singles(username, password, api_url, page_nr, iterations, json_fil
 
 		api.list_concat(api_data['objects'], Path(json_file))
 		file_name += str(counter)
-		api.to_cvs(Path(json_file), file_name, review_state, printing=False)
+		api.to_cvs(Path(json_file), file_name, review_state, data, to_reduce, printing=False)
 
 	    # Remove previous concatenation before new concatenation : str(i)
 		if page_nr < 10:                         
@@ -158,10 +158,12 @@ def analysis_categories(username, password, json_file_path = "None"):
 			page_size = input('Enter page size {e.g 5000 } :')
 			iterations = int(input('Enter number of cycles or iterations {e.g 5000 }:'))
 			api_url = "http://" + str(your_api) + "/@@API/read?catalog_name=bika_catalog_analysisrequest_listing&review_state=" + str(review_state) + "&sort_order=descending&page_size=" + str(page_size) + "&page_nr="
-			page_nr = 0      
+			page_nr = 0
+			data = "analyses"
+			to_reduce = "reduce"
 
 			#main(username, password, api_url, page_nr, iterations, json_file, file_name, review_state)
-			pull_data_singles(username, password, api_url, page_nr, iterations, json_file_path, file_name, review_state)
+			pull_data_singles(username, password, api_url, page_nr, iterations, json_file_path, file_name, review_state,data,to_reduce)
 			
 			# Return user back to options before exit
 			user_options(username, password)
@@ -179,10 +181,12 @@ def analysis_categories(username, password, json_file_path = "None"):
 			page_size = input('Enter page size {e.g 5000 }:')
 			iterations = int(input('Enter number of cycles or iterations {e.g 2 }:'))
 			api_url =  "http://" + str(your_api) + "/@@API/read?catalog_name=bikahealth_catalog_patient_listing&sort_order=descending&page_size=" + str(page_size) + "&page_nr="
-			page_nr = 0      
+			page_nr = 0
+			data = "patients"
+			to_reduce = "reduce"
 
 			#main(username, password, api_url, page_nr, iterations, json_file, file_name, review_state)
-			pull_data_singles(username, password, api_url, page_nr, iterations, json_file_path, file_name, review_state)
+			pull_data_singles(username, password, api_url, page_nr, iterations, json_file_path, file_name, review_state,data,to_reduce)
 			
 			# Return user back to options before exit
 			user_options(username, password)
@@ -209,10 +213,10 @@ def analysis_categories(username, password, json_file_path = "None"):
 
 			print('Patient Data Processing')
 			#main(username, password, patient_url, page_nr, patients_iterations, patient_json_file, patients_file_name, patients_review_state)
-			pull_data_singles(username, password, patient_url, page_nr, patients_iterations, json_file_path, patients_file_name, patients_review_state)
+			pull_data_singles(username, password, patient_url, page_nr, patients_iterations, json_file_path, patients_file_name, patients_review_state, data="patients",to_reduce="reduce")
 			print('Analysis Data Processing')
 			#main(username, password, analysis_url, page_nr, analysis_iterations, analysis_json_file, analysis_file_name, analysis_review_state)
-			pull_data_singles(username, password, analysis_url, page_nr, analysis_iterations, json_file_path, analysis_file_name, analysis_review_state)
+			pull_data_singles(username, password, analysis_url, page_nr, analysis_iterations, json_file_path, analysis_file_name, analysis_review_state, data="analyses",to_reduce="reduce")
 			#break
 
 			# Return user back to options before exit

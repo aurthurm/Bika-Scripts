@@ -4,6 +4,7 @@
 import requests
 import json
 import os
+import pandas as pd
 from time import ctime, strftime
 from json2csv import json_to_csv
 from pathlib import Path
@@ -42,38 +43,30 @@ def init( json_file_path, json_file):
 #	if not client_file_path.is_dir():
 #		create_dir(client_file_path)
 
-def pull_data(username, password, api_url, page_nr, iterations, json_file, file_name, review_state):
+def pull_data(username, password, api_url, page_nr, iterations, json_file, file_name, review_state,data, to_reduce):
 	# login to the Bika Lims API and pull data, save json file and convert it to csv using json2csv
 
-	#print('\nStart Time')
 	start_time = ctime()
-	#print(start_time)
 
 	print('\nWait while we process the data for you ....\n')
 	bar = Bar('Processing', max=iterations)
-	for i in range(iterations + 1):
+
+	for i in range(int(iterations - 1)):
 		api_url+=str(page_nr)
 		api_data = requests.get(api_url, auth=(username, password ))
 		api_data = json.loads(api_data.text)
-		#success_check(api_data)
-		list_concat(api_data['objects'], json_file)
-		#file_count(page_nr)
 
-	    # Remove previous concatenation before new concatenation : str(i)
+		list_concat(api_data['objects'], json_file)
+
 		if page_nr < 10:                         
 			api_url=api_url[:-1]
 		elif page_nr >= 10 and page_nr < 100:
 			api_url=api_url[:-2]
 		else:
-			# hightly unlikey that the case will get this option if page_size=200 / > per cycle :: 
-			# leave it there just in case you are pulling gigantic data
 			api_url=api_url[:-3] 
 
-		# check if data pulling has finished and tell us about it
-		# last iteration = iterations - 1 :: you can change acording to how your 
-		# code is structured e.g if i == 49: => produce same result for iteration = 50
 		if page_nr == (iterations - 1):			
-			to_cvs(json_file, file_name, review_state, printing=False)
+			to_cvs(json_file, file_name, review_state, data, to_reduce, printing=False)
 
 		page_nr+=1 # increamenting the loop
 		bar.next()
@@ -143,7 +136,43 @@ def file_count(page_nr):
 	print (time_saved) 
 	print('\n')
 
-def to_cvs(json_file, file_name, review_state,printing=False):
+def csv_reducer(unfiltered, data):
+    data = data.lower()
+    if (data == "analyses") or (data == "analysis"):
+        return unfiltered[
+			[
+				"PatientUID",
+				"Patient_uid",
+				"ClientPatientID",
+				"Client",
+				"SampleType",
+				"getSampleID",
+				"Analyses_0_Result",
+				"Analyses_0_Unit",
+				"Analyses_0_review_state",
+				"DateSampled",
+				"creation_date_y",
+				"Creator_x",
+				"DateReceived",
+				"Analyses_0_ResultCaptureDate",
+				"DatePublished",
+			]
+		]
+    elif data == "patients":
+        return unfiltered[
+			[
+				"PrimaryReferrerUID",
+				"UID",
+				"Firstname",
+				"Surname",
+				"Gender",
+				"BirthDate",
+				"ConsentSMS",
+				"ClientPatientID",
+			]
+		]
+
+def to_cvs(json_file, file_name, review_state, data, to_reduce="no", printing=False):
 	# convert json file to csv file
 	if review_state == "none":
 		csv_file = os.path.abspath(os.path.join( str(os.path.expanduser('~')) , 'Documents/Bika Lims/', 'csv')) + '\\' + file_name + '.csv'
@@ -153,6 +182,14 @@ def to_cvs(json_file, file_name, review_state,printing=False):
 		csv_file = os.path.abspath(os.path.join( str(os.path.expanduser('~')) , 'Documents/Bika Lims/', 'csv')) + '\\' + file_name + '_' + review_state + '.csv'
 		
 	json_to_csv( json_file, csv_file)
+
+	# Take the Just saved csv file and filter to reduce filesize
+	if to_reduce == "reduce":		
+		reduced_csv = csv_reducer(pd.read_csv(csv_file), data)
+		if os.path.exists(csv_file):
+			os.remove(csv_file)
+		reduced_csv.to_csv(csv_file,index=False)
+
 	if printing:
 		print('\n\nYour data has been successfully saved as\n' + csv_file)
 

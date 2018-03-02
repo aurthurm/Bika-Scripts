@@ -15,8 +15,8 @@ def merger_init(patients, analysis, merged_save_name):
     # 3. Exploration
 
     merged_all = merger(patients, analysis)
-    filtered = data_filter(merged_all)
-    renamed = renamer(filtered)
+    #filtered = data_filter(merged_all)
+    renamed = renamer(merged_all)
     shortened_dates(renamed)
     remove_dublicates(renamed)
     get_ages(renamed)
