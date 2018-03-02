@@ -44,10 +44,7 @@ def init( json_file_path, json_file):
 #		create_dir(client_file_path)
 
 def pull_data(username, password, api_url, page_nr, iterations, json_file, file_name, review_state,data, to_reduce):
-	# login to the Bika Lims API and pull data, save json file and convert it to csv using json2csv
-
 	start_time = ctime()
-
 	print('\nWait while we process the data for you ....\n')
 	bar = Bar('Processing', max=iterations)
 
@@ -74,43 +71,6 @@ def pull_data(username, password, api_url, page_nr, iterations, json_file, file_
 	bar.finish()	
 	print('\n=====   DONE!  =====\n')
 	print('Start Time: {}.\nEnd Time: {}.\n'.format(start_time,ctime()))
-
-def nothing():
-	while page_nr < iterations:
-		api_url+=str(page_nr)
-		api_data = requests.get(api_url, auth=(username, password ))
-		api_data = json.loads(api_data.text)
-		success_check(api_data)
-		list_concat(api_data['objects'], json_file)
-	#	file_count(page_nr)
-
-	    # Remove previous concatenation before new concatenation : str(i)
-		if page_nr < 10:                         
-			api_url=api_url[:-1]
-		elif page_nr >= 10 and page_nr < 100:
-			api_url=api_url[:-2]
-		else:
-			# hightly unlikey that the case will get this option if page_size=200 / > per cycle :: 
-			# leave it there just in case you are pulling gigantic data
-			api_url=api_url[:-3] 
-
-		# check if data pulling has finished and tell us about it
-		# last iteration = iterations - 1 :: you can change acording to how your 
-		# code is structured e.g if i == 49: => produce same result for iteration = 50
-		if page_nr == (iterations - 1):			
-			to_cvs(json_file, file_name, review_state)			
-			print('\n')
-			print('=============================================')
-			print('=====               FINISHED            =====')
-			print('=============================================')
-			print('Start Time')
-			print(start_time)
-			print('End Time')
-			end_time = ctime()
-			print(end_time)
-			print('\n')
-
-		page_nr+=1 # increamenting the loop
 
 def success_check(api_data):
 	# Check for Errors and progress and provide feed back
