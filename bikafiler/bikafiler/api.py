@@ -151,8 +151,8 @@ def csv_reducer(unfiltered, data):
 				"Analyses_0_Unit",
 				"Analyses_0_review_state",
 				"DateSampled",
-				"creation_date_y",
-				"Creator_x",
+				"creation_date",
+				"Creator",
 				"DateReceived",
 				"Analyses_0_ResultCaptureDate",
 				"DatePublished",
@@ -184,11 +184,11 @@ def to_cvs(json_file, file_name, review_state, data, to_reduce="no", printing=Fa
 	json_to_csv( json_file, csv_file)
 
 	# Take the Just saved csv file and filter to reduce filesize
-	if to_reduce == "reduce":		
-		reduced_csv = csv_reducer(pd.read_csv(csv_file), data)
+	if to_reduce == "reduce":
+		unreduced_csv = pd.read_csv(csv_file)
 		if os.path.exists(csv_file):
 			os.remove(csv_file)
-		reduced_csv.to_csv(csv_file,index=False)
+		csv_reducer(unreduced_csv, data).to_csv(csv_file,index=False)
 
 	if printing:
 		print('\n\nYour data has been successfully saved as\n' + csv_file)
