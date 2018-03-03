@@ -48,7 +48,7 @@ def pull_data(username, password, api_url, page_nr, iterations, json_file, file_
 	print('\nWait while we process the data for you ....\n')
 	bar = Bar('Processing', max=iterations)
 
-	for i in range(int(iterations - 1)):
+	for i in range(iterations):
 		api_url+=str(page_nr)
 		api_data = requests.get(api_url, auth=(username, password ))
 		api_data = json.loads(api_data.text)

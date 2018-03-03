@@ -15,7 +15,6 @@ def merger_init(patients, analysis, merged_save_name):
     # 3. Exploration
 
     merged_all = merger(patients, analysis)
-    #filtered = data_filter(merged_all)
     renamed = renamer(merged_all)
     shortened_dates(renamed)
     remove_dublicates(renamed)
@@ -40,40 +39,6 @@ def merger(patients, analysis):
     print('\n... ... Merging Patients and Analysis Data')
     return pd.merge(left=patients,right=analysis, left_on='UID', right_on='Patient_uid')
 
-def data_filter(unfiltered):
-    # A filter that drops columns we are not using
-    print('... ... Fitering Columns [ Droping Useless Cols ]')
-    return unfiltered[
-        [
-            "Client",
-            "PrimaryReferrerUID",
-            "PatientUID",
-            "Patient_uid",
-            "BirthDate",
-            "Firstname",
-            "ConsentSMS",
-            "Gender",
-            "Analyses_0_getRequestID",
-            "ClientPatientID_x",
-            "Analyses_0_Result",
-            "Analyses_0_review_state",
-            #"RejectionReasons_0_checkbox",               these are only for published data
-            #"RejectionReasons_0_checkbox_other",
-            #"RejectionReasons_0_other",
-            "Surname",
-            "Analyses_0_Unit",
-            "creation_date_y",
-            "Analyses_0_ResultCaptureDate",
-            "DateReceived",
-            "DateSampled",
-            "DatePublished",
-            "Creator_x",
-            "SampleType",
-            "getSampleID",
-
-        ]
-    ]
-
 def renamer(funny_names):
     # Rename filtered data cloumns with unfriendly naming conventios
     print('... ... ReNaming File Headers')
@@ -83,14 +48,14 @@ def renamer(funny_names):
             "PrimaryReferrerUID" : "Client UID",
             "BirthDate" : "Date of Birth",
             "Analyses_0_getRequestID" : "Request ID",
-            "ClientPatientID_x" : "Client Patient ID",
+            "ClientPatientID" : "Client Patient ID",
             "Analyses_0_Result" : "Results",
             "Analyses_0_review_state" : "Review State",
             "Analyses_0_DateAnalysisPublished" : "Date Published",
             "Analyses_0_Unit" : "Unit",
-            "creation_date_y" : "Date of Creation",
+            "creation_date" : "Date of Creation",
             "Analyses_0_ResultCaptureDate" : "Date Result Captured",
-            "Creator_x" : "Analyses Creator",
+            "Creator" : "Analyses Creator",
             "SampleType" : "Sample Type",
             "getSampleID" : "Sample ID"
         }

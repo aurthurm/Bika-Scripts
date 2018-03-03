@@ -22,9 +22,9 @@ json_file_path = Path( str(os.path.expanduser('~')) + '\\Documents\\Bika LIMS\\j
 merged_file_path = Path( str(os.path.expanduser('~')) + '\\Documents\\Bika LIMS\\merged\\' )
 csv_file_path = Path( str(os.path.expanduser('~')) + '\\Documents\\Bika LIMS\\csv\\')
 
-def main(username, password, api_url, page_nr, iterations, json_file, file_name, review_state):
+def main(username, password, api_url, page_nr, iterations, json_file, file_name, review_state, data, to_reduce):
 	# intiate data pulling
-	api.pull_data(username, password, api_url, page_nr, iterations, json_file, file_name, review_state)
+	api.pull_data(username, password, api_url, page_nr, iterations, json_file, file_name, review_state, data, to_reduce)
 
 def user_info():
 	# Get user logon information and api
@@ -48,13 +48,13 @@ def get_clients(username, password):
 
 	api.init( json_file_path, json_file)
 
-	#user_info()
+	#for update: idealy make a small data pull and get last object number for cliets to determine the required number of api requests
 	page_size = '500'
-	iterations = int('4')
+	iterations = int('5')
 	api_url =  "http://" + str(your_api) + "/@@API/read?portal_type=Client&page_size=" + str(page_size) + "&page_nr="
 	page_nr = 0      
 
-	main(username, password, api_url, page_nr, iterations, json_file, file_name, review_state)
+	main(username, password, api_url, page_nr, iterations, json_file, file_name, review_state, data="Clients", to_reduce="no")
 
 	clients_file = os.path.abspath(os.path.join( str(os.path.expanduser('~')) , 'Documents/Bika Lims/', 'clients')) + '\\' + file_name + '.csv'
 	clients_raw = pd.read_csv(clients_file)
