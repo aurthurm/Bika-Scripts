@@ -19,7 +19,7 @@ def merger_init(patients, analysis, merged_save_name):
     shortened_dates(renamed)
     remove_dublicates(renamed)
     get_ages(renamed)
-    print('... ... Creating Age Ranges [ 14 <= | > 14 ]')
+    print('... ... Creating Age Ranges')
     renamed['Age Ranges'] = renamed['Age'].apply(age_ranges)
     copier(renamed)
     print('... ... Making numeric')
@@ -102,10 +102,24 @@ def get_ages(no_ages):
 def age_ranges(x):
     # calculate age ranges
     # will be used to create a column of age ranges for easier pivot tables
-    if x <= 14:
-        z = "<= 14"
+    if x < 1:
+        z = "< 1Yr"
+    elif (x >= 1) and (x < 5):
+        z = "1 - 4"
+    elif (x >= 5) and (x < 10):
+        z = "5 - 9"
+    elif (x >= 10) and (x < 15):
+        z = "10 - 14"
+    elif (x >= 15) and (x < 20):
+        z = "15 - 19"
+    elif (x >= 20) and (x < 25):
+        z = "20 - 24"
+    elif (x >= 25) and (x < 50):
+        z = "25 - 49"
+    elif (x >= 50) and (x < 65):
+        z = "50 - 65"
     else:
-        z = "> 14"
+        z = "65++"
     return z
 
 def result_numeriser(unnumerised):
