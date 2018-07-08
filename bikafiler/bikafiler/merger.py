@@ -106,19 +106,19 @@ def age_ranges(x):
     if x < 1:
         z = "< 1Yr"
     elif (x >= 1) and (x < 5):
-        z = "1 - 4"
+        z = "1 -.- 4"
     elif (x >= 5) and (x < 10):
-        z = "5 - 9"
+        z = "5 -.- 9"
     elif (x >= 10) and (x < 15):
-        z = "10 - 14"
+        z = "10 -.- 14"
     elif (x >= 15) and (x < 20):
-        z = "15 - 19"
+        z = "15 -.- 19"
     elif (x >= 20) and (x < 25):
-        z = "20 - 24"
+        z = "20 -.- 24"
     elif (x >= 25) and (x < 50):
-        z = "25 - 49"
+        z = "25 -.- 49"
     elif (x >= 50) and (x < 65):
-        z = "50 - 65"
+        z = "50 -.- 65"
     else:
         z = "65++"
     return str(z)
