@@ -16,8 +16,9 @@ def merger_init(patients, analysis, merged_save_name):
 
     merged_all = merger(patients, analysis)
     renamed = renamer(merged_all)
-    shortened_dates(renamed)
     remove_dublicates(renamed)
+    renamed.dropna(subset=['Results'], inplace=True)
+    shortened_dates(renamed)
     get_ages(renamed)
     print('... ... Creating Age Ranges')
     renamed['Age Ranges'] = renamed['Age'].apply(age_ranges)
@@ -161,7 +162,7 @@ def make_numeric(x):
     # Numeriser -> == to result_numeriser.
     # Sometimes in some computers the above numeriser doesnt work.
     # This is an alternative finction
-    if x == "Target Not Detected":
+    if x == "Target Not Detected" or x == "Target not detected":
         z = 999999999999
     elif x == "Failed" or x == "FAILED":
         z = 0

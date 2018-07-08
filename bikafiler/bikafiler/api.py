@@ -101,7 +101,7 @@ def csv_reducer(unfiltered, data):
     if (data == "analyses") or (data == "analysis"):
         return unfiltered[
 			[
-				"PatientUID",
+			#	"PatientUID",
 				"Patient_uid",
 				"ClientPatientID",
 				"Client",
