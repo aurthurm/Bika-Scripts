@@ -121,7 +121,7 @@ def age_ranges(x):
         z = "50 - 65"
     else:
         z = "65++"
-    return z
+    return str(z)
 
 def result_numeriser(unnumerised):
     # Convert all Results with strings values to some set number 
