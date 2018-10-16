@@ -50,7 +50,7 @@ def get_clients(username, password):
 
 	#for update: idealy make a small data pull and get last object number for cliets to determine the required number of api requests
 	page_size = '500'
-	iterations = int('5')
+	iterations = int('6')
 	api_url =  "http://" + str(your_api) + "/@@API/read?portal_type=Client&page_size=" + str(page_size) + "&page_nr="
 	page_nr = 0      
 
@@ -76,7 +76,12 @@ def pull_data_singles(username, password, api_url, page_nr, iterations, json_fil
 	file_name += '_'
 	for i in range(iterations + 1):
 		api_url+=str(page_nr)
+		# print(api_url)
+		# print("\n")
 		api_data = requests.get(api_url, auth=(username, password ))
+		# print(api_data.status_code)
+		# print("\n")
+
 		api_data = json.loads(api_data.text)
 		
 		json_file = str( str(json_file_path) + '\\' + file_name + ' - ' + strftime("%a %d %b %Y - %H%M%S") + '.json' )
@@ -181,7 +186,7 @@ def analysis_categories(username, password, json_file_path = "None"):
 			page_size = input('Enter page size {e.g 5000 }:')
 			iterations = int(input('Enter number of cycles or iterations {e.g 2 }:'))
 			api_url =  "http://" + str(your_api) + "/@@API/read?catalog_name=bikahealth_catalog_patient_listing&sort_order=descending&page_size=" + str(page_size) + "&page_nr="
-			page_nr = 0
+			page_nr = 1 # 0
 			data = "patients"
 			to_reduce = "reduce"
 

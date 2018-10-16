@@ -162,11 +162,11 @@ def make_numeric(x):
     # Numeriser -> == to result_numeriser.
     # Sometimes in some computers the above numeriser doesnt work.
     # This is an alternative finction
-    if x == "Target Not Detected" or x == "Target not detected":
+    if x == "Target Not Detected" or x == "Target not detected" or x == "target not detected":
         z = 999999999999
-    elif x == "Failed" or x == "FAILED":
+    elif x == "Failed" or x == "FAILED" or x == "failed":
         z = 0
-    elif x == "Invalid" or x == "INVALID":
+    elif x == "Invalid" or x == "INVALID"or x == "invalid":
         z = 999999999009
     else:
         z = x
