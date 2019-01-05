@@ -54,7 +54,7 @@ def get_clients(username, password):
 	api_url =  "http://" + str(your_api) + "/@@API/read?portal_type=Client&page_size=" + str(page_size) + "&page_nr="
 	page_nr = 0      
 
-	main(username, password, api_url, page_nr, iterations, json_file, file_name, review_state, data="Clients", to_reduce="no")
+	main(username, password, api_url, page_nr, iterations, json_file, file_name, review_state, data="Clients", to_reduce="reduce")
 
 	clients_file = os.path.abspath(os.path.join( str(os.path.expanduser('~')) , 'Documents/Bika Lims/', 'clients')) + '\\' + file_name + '.csv'
 	clients_raw = pd.read_csv(clients_file)
@@ -189,7 +189,6 @@ def analysis_categories(username, password, json_file_path = "None"):
 			page_nr = 1 # 0
 			data = "patients"
 			to_reduce = "reduce"
-
 			#main(username, password, api_url, page_nr, iterations, json_file, file_name, review_state)
 			pull_data_singles(username, password, api_url, page_nr, iterations, json_file_path, file_name, review_state,data,to_reduce)
 			

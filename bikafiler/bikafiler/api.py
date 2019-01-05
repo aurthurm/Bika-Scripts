@@ -116,6 +116,8 @@ def csv_reducer(unfiltered, data):
 				"DateReceived",
 				"Analyses_0_ResultCaptureDate",
 				"DatePublished",
+				"Analyses_0_Instrument",
+				"Analyses_0_Keyword",
 			]
 		]
     elif data == "patients":

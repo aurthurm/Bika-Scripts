@@ -69,6 +69,8 @@ def data_filter(unfiltered):
             "Creator_x",
             "SampleType",
             "getSampleID",
+            "Keyword",
+            "Instrument"
 
         ]
     ]
@@ -91,7 +93,8 @@ def renamer(funny_names):
             "Analyses_0_ResultCaptureDate" : "Date Result Captured",
             "Creator_x" : "Analyses Creator",
             "SampleType" : "Sample Type",
-            "getSampleID" : "Sample ID"
+            "getSampleID" : "Sample ID",
+            "Keyword" : "Instrument Key"
         }
     )
 
